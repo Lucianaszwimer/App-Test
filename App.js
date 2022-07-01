@@ -1,11 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { useState, useEffect } from "react";
-import axios from 'axios';
 import React from 'react';
 import { Login } from "./View/loginScreen.js"
 import { Signin } from "./View/signinScreen.js"
 import { Presente } from "./View/presenteScreen.js"
+import { dbAxios } from "./src/axios.js"
 
 const Stack = createNativeStackNavigator();
 
@@ -28,19 +27,7 @@ function PresenteScreen() {
 }
 
 export default function App() {
-  const [alumnos, setAlumnos] = useState([])
-  useEffect(() => {
-    async function getAllAlumnos() {
-      try {
-        const alumnos = await axios.get('http://10.0.2.2:8000/api/related/')
-        console.log(alumnos.data)
-        setAlumnos(alumnos.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getAllAlumnos()
-  }, [])
+  dbAxios();
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -49,7 +36,5 @@ export default function App() {
         <Stack.Screen name="Presente" component={PresenteScreen} />
       </Stack.Navigator>
     </NavigationContainer>
-    
   );
 }
-

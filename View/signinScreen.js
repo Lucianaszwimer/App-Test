@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TextInput, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 
@@ -15,7 +15,7 @@ export function Signin() {
           <TextInput style={styles.input} onChangeText={onChangeNumber} value={number} placeholder="Ingrese su CUIL" keyboardType="numeric"/>
           <TextInput style={styles.input} onChangeText={onChangeText} value={text} placeholder="Ingrese su contraseña"/>
   
-        <Button title="Sign In" color="#525252" onPress={() => Alert.alert('Simple Button pressed')}/>
+        <Button title="Sign In" color="#525252" onPress={()=>Alert.alert('Simple Button pressed')}/>
   
         <Text style={styles.minitext}>¿Ya tenes una cuenta?
           <Button title="Presiona aquí para iniciar sesion" onPress={() => navigation.navigate('Login')}/>
