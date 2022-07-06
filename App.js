@@ -10,19 +10,19 @@ const Stack = createNativeStackNavigator();
 
 function LoginScreen() {
   return(
-  Login()
+  <Login/>
   );
 }
 
 function SigninScreen() {
   return (
-    Signin()
+    <Signin/>
   );
 }
 
 function PresenteScreen() {
   return (
-    Presente()
+      <Presente/>
   );
 }
 
