@@ -1,10 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { RadioButton } from 'react-native-paper';
 import axios from 'axios';
 
-export function Presente() {
+const Alumno = ({ item, habilitado }) => {
+  const [Presencia, setPresencia] = React.useState(item.estado);
+  return (
+    <>
+      <Text style={styles.list}>{item.legajoalumno.apellido} {item.legajoalumno.nombre}
+      <RadioButton 
+          value="Presente"
+          status={Presencia === 'Presente' ? 'checked' : 'unchecked'}
+          onPress={() => setPresencia('Presente')}
+          disabled={habilitado === false ? 'disabled' : true}
+        />
+        <RadioButton
+          value="Tarde"
+          status={Presencia === 'Tarde' ? 'checked' : 'unchecked'}
+          onPress={() => setPresencia('Tarde')}
+          disabled={habilitado === false ? 'disabled' : true}
+        />
+        <RadioButton
+        value="Ausente"
+        status={Presencia === 'Ausente' ? 'checked' : 'unchecked'}
+        onPress={() => setPresencia('Ausente')}
+        disabled={habilitado === false ? 'disabled' : true}
+      />
+        </Text>
+    </>
+  )
+}
 
+export function Presente() {
+  const [editarHabilitado, setEditarHabilitado] = useState(false);
+  useEffect(() => {
+    setEditarHabilitado(false);
+  });
   const [alumnos, setAlumnos] = useState([]);
   useEffect(() => {
     axios.get('http://10.0.2.2:8000/api/related/')
@@ -12,32 +44,42 @@ export function Presente() {
       .catch(console.error)
   }, [])
 
-    return (
-        <View style={styles.container}>
-      <Text>Alumnos</Text>
-      <FlatList  data={alumnos} style={styles.list} renderItem={({item})=><Text>{item.legajoalumno.nombre} : {item.estado}</Text>}/> 
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Alumnos</Text>
+      <Button title="EDITAR" onPress={() => {
+        setEditarHabilitado(true);
+        console.log(editarHabilitado)
+      }}/>
+      <FlatList style={styles.list} data={alumnos} renderItem={({ item }) =><Alumno item={item} habilitado={editarHabilitado} />} />
+
       <StatusBar style="auto" />
     </View>
-    );
-  }
+  );
+}
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      marginTop: 70,
-      alignItems: 'center',
-    },
+const styles = StyleSheet.create({
 
-    list: {
-      backgroundColor: "#d1d1d1",
-      padding: 100,
-      marginHorizontal: 0.5,
-      marginVertical: 0.5 ,
-    },
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
 
-    colores: {
-      p: {
+  list: {
+    flex: 1,
+    backgroundColor: "#d1d1d1",
+    padding: 20,
+    fontSize: 20,
+  },
+
+  title: {
+    marginVertical: 40,
+    marginHorizontal: 10,
+    fontSize: 32,
+  },
+
+  colores: {
+    p: {
       backgroundColor: '#2bad30'
     },
 
@@ -49,6 +91,5 @@ export function Presente() {
       backgroundColor: '#d64038'
     }
   }
-  });
-    
-  
+});
+
