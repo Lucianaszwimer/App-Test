@@ -13,19 +13,19 @@ const Alumno = ({ item, habilitado }) => {
           value="Presente"
           status={Presencia === 'Presente' ? 'checked' : 'unchecked'}
           onPress={() => setPresencia('Presente')}
-          disabled={habilitado === false ? 'disabled' : true}
+          disabled={!habilitado}
         />
         <RadioButton
           value="Tarde"
           status={Presencia === 'Tarde' ? 'checked' : 'unchecked'}
           onPress={() => setPresencia('Tarde')}
-          disabled={habilitado === false ? 'disabled' : true}
+          disabled={!habilitado}
         />
         <RadioButton
         value="Ausente"
         status={Presencia === 'Ausente' ? 'checked' : 'unchecked'}
         onPress={() => setPresencia('Ausente')}
-        disabled={habilitado === false ? 'disabled' : true}
+        disabled={!habilitado}
       />
         </Text>
     </>
@@ -34,9 +34,6 @@ const Alumno = ({ item, habilitado }) => {
 
 export function Presente() {
   const [editarHabilitado, setEditarHabilitado] = useState(false);
-  useEffect(() => {
-    setEditarHabilitado(false);
-  });
   const [alumnos, setAlumnos] = useState([]);
   useEffect(() => {
     axios.get('http://10.0.2.2:8000/api/related/')
@@ -47,9 +44,8 @@ export function Presente() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Alumnos</Text>
-      <Button title="EDITAR" onPress={() => {
-        setEditarHabilitado(true);
-        console.log(editarHabilitado)
+      <Button title={editarHabilitado?"GUARDAR":"EDITAR"} onPress={() => {
+        setEditarHabilitado(!editarHabilitado);
       }}/>
       <FlatList style={styles.list} data={alumnos} renderItem={({ item }) =><Alumno item={item} habilitado={editarHabilitado} />} />
 
