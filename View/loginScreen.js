@@ -15,7 +15,7 @@ export function Login() {
           <TextInput style={styles.input} onChangeText={onChangeNumber} value={number} placeholder="Ingrese su CUIL" keyboardType="numeric"/>
           <TextInput style={styles.input} onChangeText={onChangeText} value={text} placeholder="Ingrese su contraseña"/>
           
-        <Button title="Log in" color="#525252" onPress={() => navigation.navigate('Presente')}/>
+        <Button title="Log in" color="#525252" onPress={() => navigation.navigate('Home')}/>
   
         <Text style={styles.minitext}>¿No tenes una cuenta ya registrada?
           <Button title="Presiona aquí para registrarte" onPress={() => navigation.navigate('Signin')}/>
