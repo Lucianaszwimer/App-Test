@@ -6,7 +6,7 @@ export function dbAxios() {
     useEffect(() => {
       async function getAllAlumnos() {
         try {
-          const alumnos = await axios.get('http://10.0.2.2:8000/api/related/')
+          const alumnos = await axios.get('https://the-facial.herokuapp.com/api/related/')
           console.log(alumnos.data)
           setAlumnos(alumnos.data)
         } catch (error) {

@@ -6,6 +6,7 @@ import { Signin } from "./View/signinScreen.js"
 import { Presente } from "./View/presenteScreen.js"
 import { dbAxios } from "./src/axios.js"
 import { Home } from "./View/cursosScreen.js"
+import { NativeBaseProvider } from 'native-base';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,13 +37,15 @@ function CursosScreen() {
 export default function App() {
   dbAxios();
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signin" component={SigninScreen} />
-        <Stack.Screen name="Presente" component={PresenteScreen} />
-        <Stack.Screen name="Home" component={CursosScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Signin" component={SigninScreen} />
+          <Stack.Screen name="Presente" component={PresenteScreen} />
+          <Stack.Screen name="Home" component={CursosScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }

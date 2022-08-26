@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, Button, Alert} from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Alumno = ({ item, habilitado }) => {
@@ -9,34 +9,53 @@ const Alumno = ({ item, habilitado }) => {
   return (
     <>
       <Text style={styles.list}>{item.legajoalumno.apellido} {item.legajoalumno.nombre}
-      <RadioButton 
+        <RadioButton 
           value="Presente"
           status={Presencia === 'Presente' ? 'checked' : 'unchecked'}
-          onPress={() => setPresencia('Presente')}
-          disabled={!habilitado}
+          onPress={() => {
+            if(habilitado) {
+              setPresencia('Presente')
+            } else {
+              Alert.alert('Clickea editar para cambiar las asistencias')
+            }
+          }}
+          color='#00A402'
         />
         <RadioButton
           value="Tarde"
           status={Presencia === 'Tarde' ? 'checked' : 'unchecked'}
-          onPress={() => setPresencia('Tarde')}
-          disabled={!habilitado}
+          onPress={() => {
+            if(habilitado) {
+              setPresencia('Tarde')
+            } else {
+              Alert.alert('Clickea editar para cambiar las asistencias')
+            }
+          }}
+          color='#ECDE00'
         />
         <RadioButton
-        value="Ausente"
-        status={Presencia === 'Ausente' ? 'checked' : 'unchecked'}
-        onPress={() => setPresencia('Ausente')}
-        disabled={!habilitado}
-      />
-        </Text>
+          value="Ausente"
+          status={Presencia === 'Ausente' ? 'checked' : 'unchecked'}
+          onPress={() => {
+            if(habilitado) {
+              setPresencia('Ausente')
+            } else {
+              Alert.alert('Clickea editar para cambiar las asistencias')
+            }
+          }}
+          color='#DB0000'
+        />
+      </Text>
     </>
-  )
-}
+    )
+  }
+  
 
 export function Presente() {
   const [editarHabilitado, setEditarHabilitado] = useState(false);
   const [alumnos, setAlumnos] = useState([]);
   useEffect(() => {
-    axios.get('http://10.0.2.2:8000/api/related/')
+    axios.get('https://the-facial.herokuapp.com/api/related/')
       .then(res => setAlumnos(res.data))
       .catch(console.error)
   }, [])
@@ -48,7 +67,6 @@ export function Presente() {
         setEditarHabilitado(!editarHabilitado);
       }}/>
       <FlatList style={styles.list} data={alumnos} renderItem={({ item }) =><Alumno item={item} habilitado={editarHabilitado} />} />
-
       <StatusBar style="auto" />
     </View>
   );
