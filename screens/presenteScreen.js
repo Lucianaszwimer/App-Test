@@ -4,10 +4,12 @@ import { RadioButton } from 'react-native-paper';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useContextState } from '../contextState.js';
-import { ActionTypes } from '../contextState.js';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const Alumno = ({ item, habilitado }) => {
   const [Presencia, setPresencia] = React.useState(item.estado);
+  let date = new Date();
+  let time = date.getHours() + ":" + date.getMinutes() + ":" +  date.getSeconds();
   return (
     <>
       <Text style={styles.list}>{item.legajoalumno.apellido} {item.legajoalumno.nombre}
@@ -17,7 +19,7 @@ const Alumno = ({ item, habilitado }) => {
           onPress={() => {
             if (habilitado) {
               setPresencia('Presente')
-              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`,  {"estado": "Presente"})
+              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Presente", "tiempo":time })
                 .then(res => {
                   console.log("exito")
                 })
@@ -34,11 +36,11 @@ const Alumno = ({ item, habilitado }) => {
           onPress={() => {
             if (habilitado) {
               setPresencia('Tarde')
-              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`,  {"estado": "Tarde"})
-              .then(res => {
-                console.log("exito")
-              })
-              .catch(console.error)
+              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Tarde", "tiempo":time })
+                .then(res => {
+                  console.log("exito")
+                })
+                .catch(console.error)
             } else {
               Alert.alert('Clickea editar para cambiar las asistencias')
             }
@@ -51,11 +53,11 @@ const Alumno = ({ item, habilitado }) => {
           onPress={() => {
             if (habilitado) {
               setPresencia('Ausente')
-              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`,  {"estado": "Ausente"})
-              .then(res => {
-                console.log("exito")
-              })
-              .catch(console.error)
+              axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Ausente", "tiempo":time })
+                .then(res => {
+                  console.log("exito")
+                })
+                .catch(console.error)
             } else {
               Alert.alert('Clickea editar para cambiar las asistencias')
             }
@@ -67,24 +69,22 @@ const Alumno = ({ item, habilitado }) => {
   )
 }
 
-
-export function Presente() {
+export function Presente () {
   const [editarHabilitado, setEditarHabilitado] = useState(false);
-  const [alumnos, setAlumnos] = useState([]);
   const { contextState, setContextState } = useContextState();
-  useEffect(() => {
-    axios.get('https://the-facial.herokuapp.com/api/related//')
-      .then(res => setAlumnos(res.data))
-      .catch(console.error)
-  }, [])
-
+  const navigation = useNavigation();
+  const route = useRoute();
+  const curso = route.params
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Alumnos</Text>
+      <Text style={styles.title}>{curso.idcurso.nombre + " " + curso.idmateria.nombre + " " + curso.bloquedia}</Text>
       <Button title={editarHabilitado ? "GUARDAR" : "EDITAR"} onPress={() => {
         setEditarHabilitado(!editarHabilitado);
       }} />
       <FlatList style={styles.list} data={contextState.alumnos} renderItem={({ item }) => <Alumno item={item} habilitado={editarHabilitado} />} />
+      <Button title="Confirmar" onPress={() => {
+        navigation.navigate('Home')
+      }} />
       <StatusBar style="auto" />
     </View>
   );

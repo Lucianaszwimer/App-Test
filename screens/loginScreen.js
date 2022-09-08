@@ -11,9 +11,8 @@ export function Login() {
   const { contextState, setContextState } = useContextState();
   const [cursosT, setCursosT] = useState();
   let cF = []
-
-  useEffect(() => {
-    axios.get('https://the-facial.herokuapp.com/api/pavanzado//')
+  useEffect(async() => {
+    await axios.get('https://the-facial.herokuapp.com/api/pavanzado//')
       .then(res => {
         setCursosT(res.data)
       })
@@ -47,7 +46,7 @@ export function Login() {
         setContextState({
           type: ActionTypes.SetNombre,
           value: text
-        })} placeholder="Ingrese su Nombre" keyboardType="numeric" />
+        })} placeholder="Ingrese su Nombre"  />
       <TextInput style={styles.input} onChangeText={(text) =>
         setContextState({
           type: ActionTypes.SetApellido,
@@ -55,7 +54,7 @@ export function Login() {
         })} placeholder="Ingrese su Apellido" />
 
       <Button title="Log in" color="#525252" onPress={() => {
-        const f = llenarVect()
+       llenarVect()
       }} />
 
       <Text style={styles.minitext}>¿No tenes una cuenta ya registrada?

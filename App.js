@@ -23,9 +23,9 @@ function SigninScreen() {
   );
 }
 
-function PresenteScreen() {
+function PresenteScreen(props) {
   return (
-    <Presente />
+    <Presente {...props}/>
   );
 }
 

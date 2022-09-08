@@ -14,15 +14,16 @@ export function Home() {
   let aF = []
   let cursos = contextState.cursos
 
-  useEffect(() => {
-    axios.get('https://the-facial.herokuapp.com/api/related//')
+  useEffect(async () => {
+    await axios.get('https://the-facial.herokuapp.com/api/related//')
       .then(res => {
+        console.log('hola')
         setAlumnos(res.data)
       })
       .catch(console.error)
   }, [])
 
-  const llenarVect = async (bloque) => {
+  const llenarVect = async (bloque, curso) => {
     await alumnos.map((a) => {
       if (a.idcmpa == bloque) {
         aF.push(a)
@@ -33,7 +34,7 @@ export function Home() {
         type: ActionTypes.SetAlumnos,
         value: aF
       })
-      navigation.navigate('Presente')
+      navigation.navigate('Presente', curso)
     }
   }
 
@@ -44,7 +45,7 @@ export function Home() {
       {cursos.map((e, i) =>
         <>
           <Button style={styles.button} title={e.idcurso.nombre + " " + e.idmateria.nombre + " " + e.bloquedia} onPress={() => {
-            llenarVect(e.idcmpa)
+            llenarVect(e.idcmpa, e)
           }} />
         </>
       )}
