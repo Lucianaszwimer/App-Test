@@ -17,7 +17,6 @@ export function Home() {
   useEffect(async () => {
     await axios.get('https://the-facial.herokuapp.com/api/related//')
       .then(res => {
-        console.log('hola')
         setAlumnos(res.data)
       })
       .catch(console.error)
@@ -25,7 +24,7 @@ export function Home() {
 
   const llenarVect = async (bloque, curso) => {
     await alumnos.map((a) => {
-      if (a.idcmpa == bloque) {
+      if (a.idclase.idcmpa == bloque) {
         aF.push(a)
       }
     })

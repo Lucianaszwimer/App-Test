@@ -21,7 +21,6 @@ const Alumno = ({ item, habilitado }) => {
               setPresencia('Presente')
               axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Presente", "tiempo":time })
                 .then(res => {
-                  console.log("exito")
                 })
                 .catch(console.error)
             } else {
@@ -38,7 +37,6 @@ const Alumno = ({ item, habilitado }) => {
               setPresencia('Tarde')
               axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Tarde", "tiempo":time })
                 .then(res => {
-                  console.log("exito")
                 })
                 .catch(console.error)
             } else {
@@ -55,7 +53,6 @@ const Alumno = ({ item, habilitado }) => {
               setPresencia('Ausente')
               axios.patch(`https://the-facial.herokuapp.com/api/related//${item.idpresencia}/`, { "estado": "Ausente", "tiempo":time })
                 .then(res => {
-                  console.log("exito")
                 })
                 .catch(console.error)
             } else {
